@@ -17,7 +17,7 @@ export function defaultSetting(): UserState {
     userInfo: {
       avatar: 'https://raw.githubusercontent.com/suoak/ChatGPT-Web/main/src/assets/avatar.jpg',
       name: 'RuiJie',
-      description: '❤️❤️❤️❤️ ',
+      description: 'Star on ',
     },
   }
 }
