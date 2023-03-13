@@ -1,19 +1,30 @@
 <script lang="ts" setup>
-import { computed} from 'vue'
-import { NButton, NPopconfirm, useMessage } from 'naive-ui'
+import { computed, ref } from 'vue'
+import { NButton, NInput, NPopconfirm, NSelect, useMessage } from 'naive-ui'
 import type { Language, Theme } from '@/store/modules/app/helper'
 import { SvgIcon } from '@/components/common'
-import { useAppStore } from '@/store'
+import { useAppStore, useUserStore } from '@/store'
+import type { UserInfo } from '@/store/modules/user/helper'
 import { getCurrentDate } from '@/utils/functions'
+import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { t } from '@/locales'
 
 const appStore = useAppStore()
+const userStore = useUserStore()
+
+const { isMobile } = useBasicLayout()
 
 const ms = useMessage()
 
 const theme = computed(() => appStore.theme)
 
+const userInfo = computed(() => userStore.userInfo)
 
+const avatar = ref(userInfo.value.avatar ?? '')
+
+const name = ref(userInfo.value.name ?? '')
+
+const description = ref(userInfo.value.description ?? '')
 
 const language = computed({
   get() {
@@ -49,6 +60,11 @@ const languageOptions: { label: string; key: Language; value: Language }[] = [
 ]
 
 
+function handleReset() {
+  userStore.resetUserInfo()
+  ms.success(t('common.success'))
+  window.location.reload()
+}
 
 function exportData(): void {
   const date = getCurrentDate()
@@ -103,7 +119,10 @@ function handleImportButtonClick(): void {
 <template>
   <div class="p-4 space-y-5 min-h-[200px]">
     <div class="space-y-6">
-      <div class="flex items-center space-x-4">
+      <div
+        class="flex items-center space-x-4"
+        :class="isMobile && 'items-start'"
+      >
         <span class="flex-shrink-0 w-[100px]">{{ $t('setting.chatHistory') }}</span>
 
         <div class="flex flex-wrap items-center gap-4">
@@ -154,15 +173,12 @@ function handleImportButtonClick(): void {
       <div class="flex items-center space-x-4">
         <span class="flex-shrink-0 w-[100px]">{{ $t('setting.language') }}</span>
         <div class="flex flex-wrap items-center gap-4">
-          <template v-for="item of languageOptions" :key="item.key">
-            <NButton
-              size="small"
-              :type="item.key === language ? 'primary' : undefined"
-              @click="appStore.setLanguage(item.key)"
-            >
-              {{ item.label }}
-            </NButton>
-          </template>
+          <NSelect
+            style="width: 140px"
+            :value="language"
+            :options="languageOptions"
+            @update-value="value => appStore.setLanguage(value)"
+          />
         </div>
       </div>
     </div>
