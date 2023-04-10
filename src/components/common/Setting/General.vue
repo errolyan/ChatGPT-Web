@@ -50,11 +50,7 @@ const languageOptions: { label: string; key: Language; value: Language }[] = [
   { label: 'English', key: 'en-US', value: 'en-US' },
 ]
 
-function handleReset() {
-  userStore.resetUserInfo()
-  ms.success(t('common.success'))
-  window.location.reload()
-}
+
 
 function exportData(): void {
   const date = getCurrentDate()
@@ -170,12 +166,6 @@ function handleImportButtonClick(): void {
             @update-value="value => appStore.setLanguage(value)"
           />
         </div>
-      </div>
-      <div class="flex items-center space-x-4">
-        <span class="flex-shrink-0 w-[100px]">{{ $t('setting.resetUserInfo') }}</span>
-        <NButton size="small" @click="handleReset">
-          {{ $t('common.reset') }}
-        </NButton>
       </div>
     </div>
   </div>

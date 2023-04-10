@@ -20,11 +20,6 @@ function updateSettings(options: Partial<SettingsState>) {
   ms.success(t('common.success'))
 }
 
-function handleReset() {
-  settingStore.resetSetting()
-  ms.success(t('common.success'))
-  window.location.reload()
-}
 </script>
 
 <template>
@@ -57,12 +52,6 @@ function handleReset() {
         <span>{{ top_p }}</span>
         <NButton size="tiny" text type="primary" @click="updateSettings({ top_p })">
           {{ $t('common.save') }}
-        </NButton>
-      </div>
-      <div class="flex items-center space-x-4">
-        <span class="flex-shrink-0 w-[120px]">&nbsp;</span>
-        <NButton size="small" @click="handleReset">
-          {{ $t('common.reset') }}
         </NButton>
       </div>
     </div>
