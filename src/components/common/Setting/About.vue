@@ -49,7 +49,7 @@ onMounted(() => {
       </div>
       <p>{{ $t("setting.api") }}：{{ config?.apiModel ?? '-' }}</p>
       <p v-if="isChatGPTAPI">
-        {{ $t("setting.monthlyUsage") }}：{{ config?.usage ?? '-' }}
+        {{ $t("setting.monthlyUsage") }}：{{'-' }}
       </p>
       <p v-if="!isChatGPTAPI">
         {{ $t("setting.reverseProxy") }}：{{'-' }}
